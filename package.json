@@ -1,0 +1,22 @@
+{
+  "name": "sudoku",
+  "version": "1.0.0",
+  "description": "",
+  "main": "squares.js",
+  "scripts": {
+    "test": "jest",
+    "test:debug": "node --debug-brk --inspect ./node_modules/jest/bin/jest -i",
+    "lint": "eslint sudoku.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint-config-airbnb-base": "^13.1.0",
+    "jest": "^24.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-plugin-import": "^2.16.0",
+    "lodash": "^4.17.11"
+  }
+}
