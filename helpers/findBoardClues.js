@@ -1,5 +1,5 @@
 const Slot = require('../models/Slot');
-const { findSquareOrigin } = require('../helpers/squareConverters');
+const { findSquareOrigin } = require('./squareConverters');
 
 function rowContains(i, option, vals) {
   return vals[i].indexOf(option) !== -1;

@@ -1,20 +1,10 @@
-const optionsObj = () => ({
-  1: false,
-  2: false,
-  3: false,
-  4: false,
-  5: false,
-  6: false,
-  7: false,
-  8: false,
-  9: false,
-});
+const Options = require('./Options');
 
 class Slot {
   constructor(options, val) {
     this.value = val;
     this.hasValue = !!val;
-    this.options = optionsObj();
+    this.options = new Options();
     for (let i = 0; i < options.length; i += 1) {
       this.options[options[i]] = true;
     }
@@ -29,10 +19,17 @@ class Slot {
         singleVal = i;
       }
     }
-    this.value = singleVal;
+    this.inputValue(singleVal);
+    return cb(singleVal);
+  }
+
+  inputValue(val) {
+    this.value = val;
     this.hasValue = true;
-    cb(singleVal);
-    return true;
+  }
+
+  removeClue(number) {
+    this.options[number] = false;
   }
 }
 

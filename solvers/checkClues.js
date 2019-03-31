@@ -4,12 +4,11 @@ module.exports = function checkClues() {
     for (let j = 0; j < this.clues[i].length; j += 1) {
       if (!this.clues[i][j].hasValue) {
         const numberWasFound = this.clues[i][j].validateUniqueClue((val) => {
-          this.updateClue(i, j, val);
+          return this.updateClue(i, j, val);
         });
         progress = progress || numberWasFound;
       }
     }
   }
   return progress;
-  // this.checkUniques();
 };

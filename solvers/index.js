@@ -1,7 +1,7 @@
-const findBoardClues = require('./findBoardClues');
 const checkClues = require('./checkClues');
+const unitToUnit = require('./unitToUnit');
 
 module.exports = {
-  findBoardClues,
   checkClues,
+  unitToUnit,
 };

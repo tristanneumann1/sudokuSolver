@@ -15,4 +15,6 @@ function findSquareOrigin(i, j) {
   return [i - (i % 3), j - (j % 3)];
 }
 
-module.exports = { rowColToSquare, squareToRowCol, findSquareOrigin };
+const squareConverters = { rowColToSquare, squareToRowCol, findSquareOrigin };
+
+module.exports = squareConverters;

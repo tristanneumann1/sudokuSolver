@@ -1,8 +1,10 @@
 const Square = require('./models/Square.js');
 const Column = require('./models/Column.js');
 const Row = require('./models/Row.js');
-const { findBoardClues, checkClues } = require('./solvers');
-const { rowColToSquare } = require('./helpers/squareConverters');
+const { checkClues, unitToUnit } = require('./solvers');
+const { squareConverters, findBoardClues } = require('./helpers');
+
+const { rowColToSquare } = squareConverters;
 
 class Board {
   constructor(initialVals) {
@@ -24,6 +26,7 @@ class Board {
     this.updateRow(i, val);
     this.updateColumn(j, val);
     this.updateSquare(i, j, val);
+    return true;
   }
 
   updateRow(i, val) {
@@ -45,6 +48,10 @@ class Board {
       counter += 1;
       progress = checkClues.bind(this)();
     }
+    // if (!this.isSolved) {
+    //   progress = unitToUnit.bind(this)();
+    //   counter += this.solve();
+    // }
     return counter;
   }
 
