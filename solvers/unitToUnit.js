@@ -7,7 +7,6 @@ function lineToSq(unitIndex, number, type) {
     return false;
   }
   for (let i = 0; i < 9; i += 1) {
-
     if (!unit.clues[i].hasValue && unit.clues[i].options[number]) {
       // If slot has number option
 
@@ -31,17 +30,15 @@ function lineToSq(unitIndex, number, type) {
       : this.squares[rowColToSquare(unitIndex, alternateIndex)]
         .removeSoftClues((unitIndex % 3), number, type);
   }
-  console.log('this exception should never occur');
-  return false;
+  throw new Error('no options found for a number in a unit');
 }
 
 module.exports = function unitToUnit() {
   let progress = false;
   for (let unitIndex = 0; unitIndex < 9; unitIndex += 1) {
-    for (let number = 0; number < 9; number += 1) {
-      progress = progress
-      || lineToSq.bind(this)(unitIndex, number, 'column')
-      || lineToSq.bind(this)(unitIndex, number, 'row');
+    for (let number = 1; number < 10; number += 1) {
+      progress = lineToSq.bind(this)(unitIndex, number, 'column') || progress;
+      progress = lineToSq.bind(this)(unitIndex, number, 'row') || progress;
       // || sqToRowCol.bind(this)(unitIndex, number);
     }
     if (progress) return progress;

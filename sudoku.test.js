@@ -86,9 +86,9 @@ describe('Sudoku Board', () => {
     /* eslint-enable no-multi-spaces */
     const board = new Sudoku(initBoard);
 
-    expect(board.isSolved()).toBe(false);
+    expect(board.checkSolved()).toBe(false);
     board.clues[8][8].inputValue(8);
-    expect(board.isSolved()).toBe(true);
+    expect(board.checkSolved()).toBe(true);
   });
 
   xit('tests for my own sanity', () => {
@@ -131,8 +131,7 @@ describe('Sudoku Board', () => {
     it('solves the sudoku', () => {
       const board = new Sudoku(initBoard);
       const steps = board.solve();
-      debugger
-      expect(board.isSolved()).toBe(true);
+      expect(board.solved).toBe(true);
     });
   });
 });

@@ -24,7 +24,7 @@ function squareContains(i, j, option, vals) {
 
 function findClueSlot(i, j) {
   if (this.vals[i][j]) {
-    return new Slot([this.vals[i][j]], this.vals[i][j]);
+    return new Slot([this.vals[i][j]], this.vals[i][j], i, j);
   }
   const options = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   const optionClues = options.filter(option => !(
@@ -32,7 +32,7 @@ function findClueSlot(i, j) {
       || columnContains(j, option, this.vals)
       || squareContains(i, j, option, this.vals)
   ));
-  return new Slot(optionClues);
+  return new Slot(optionClues, undefined, i, j);
 }
 
 function findBoardClues() {

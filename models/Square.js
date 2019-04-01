@@ -2,9 +2,10 @@ const { squareToRowCol } = require('../helpers/squareConverters');
 const Options = require('./Options');
 
 class Square {
-  constructor(square, clues) {
+  constructor(square, clues, board) {
     this.square = squareToRowCol(square);
     this.clues = [];
+    this.board = board;
     this.squareClues = [];
     this.values = new Options();
     for (let x = this.square[0]; x < this.square[0] + 3; x += 1) {

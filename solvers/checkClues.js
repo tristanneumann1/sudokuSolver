@@ -1,3 +1,5 @@
+// SOLE CANDIDATE
+
 module.exports = function checkClues() {
   let progress = false;
   for (let i = 0; i < this.clues.length; i += 1) {

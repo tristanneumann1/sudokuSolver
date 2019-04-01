@@ -1,9 +1,10 @@
 const Options = require('./Options');
 
 class Row {
-  constructor(i, clues) {
+  constructor(i, clues, board) {
     this.row = i;
     this.clues = clues[i];
+    this.board = board;
     this.values = new Options();
     this.clues.forEach((clue) => {
       if (clue.hasValue) {

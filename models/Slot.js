@@ -1,7 +1,9 @@
 const Options = require('./Options');
 
 class Slot {
-  constructor(options, val) {
+  constructor(options, val, row, column) {
+    this.row = row;
+    this.column = column;
     this.value = val;
     this.hasValue = !!val;
     this.options = new Options();

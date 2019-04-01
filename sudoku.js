@@ -1,8 +1,8 @@
 const Square = require('./models/Square.js');
 const Column = require('./models/Column.js');
 const Row = require('./models/Row.js');
-const { checkClues, unitToUnit } = require('./solvers');
-const { squareConverters, findBoardClues } = require('./helpers');
+const { checkClues, unitToUnit, uniqueCandidate } = require('./solvers');
+const { squareConverters, findBoardClues, logger } = require('./helpers');
 
 const { rowColToSquare } = squareConverters;
 
@@ -10,14 +10,15 @@ class Board {
   constructor(initialVals) {
     this.initialVals = initialVals;
     this.vals = initialVals;
+    this.solved = false;
     this.clues = findBoardClues.bind(this)();
     this.columns = [];
     this.rows = [];
     this.squares = [];
     for (let i = 0; i < 9; i += 1) {
-      this.rows.push(new Row(i, this.clues));
-      this.columns.push(new Column(i, this.clues));
-      this.squares.push(new Square(i, this.clues));
+      this.rows.push(new Row(i, this.clues, this));
+      this.columns.push(new Column(i, this.clues, this));
+      this.squares.push(new Square(i, this.clues, this));
     }
   }
 
@@ -44,26 +45,48 @@ class Board {
   solve() {
     let counter = 0;
     let progress = true;
-    while (!this.isSolved() && counter < 100 && progress) {
+    this.checkSolved();
+    while (!this.solved && counter < 100 && progress) {
+      // check soleCandidate
       counter += 1;
       progress = checkClues.bind(this)();
+      if (progress) {
+        this.checkSolved();
+      }
     }
-    // if (!this.isSolved) {
-    //   progress = unitToUnit.bind(this)();
-    //   counter += this.solve();
-    // }
+    if (!this.solved && !progress) {
+      // check uniqueCandidate
+      counter += 1;
+      progress = uniqueCandidate.bind(this)();
+      if (progress) {
+        counter += this.solve();
+      }
+    }
+    if (!this.solved && !progress) {
+      counter += 1;
+      progress = unitToUnit.bind(this)();
+      if (progress) {
+        counter += this.solve();
+      }
+    }
     return counter;
   }
 
-  isSolved() {
+  checkSolved() {
     for (let i = 0; i < this.clues.length; i += 1) {
       for (let j = 0; j < this.clues[i].length; j += 1) {
         if (!this.clues[i][j].hasValue) {
+          this.solved = false;
           return false;
         }
       }
     }
+    this.solved = true;
     return true;
+  }
+
+  log() {
+    return logger.bind(this)();
   }
 }
 
