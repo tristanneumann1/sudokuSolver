@@ -23,7 +23,7 @@ class Square {
   updateSquare(val) {
     this.values[val] = true;
     this.clues.forEach((clue) => {
-      clue.options[val] = false;
+      clue.removeClue(val);
     });
   }
 

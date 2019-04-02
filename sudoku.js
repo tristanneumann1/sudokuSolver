@@ -1,7 +1,7 @@
 const Square = require('./models/Square.js');
 const Column = require('./models/Column.js');
 const Row = require('./models/Row.js');
-const { checkClues, unitToUnit, uniqueCandidate } = require('./solvers');
+const { solvers } = require('./solvers');
 const { squareConverters, findBoardClues, logger } = require('./helpers');
 
 const { rowColToSquare } = squareConverters;
@@ -20,6 +20,7 @@ class Board {
       this.columns.push(new Column(i, this.clues, this));
       this.squares.push(new Square(i, this.clues, this));
     }
+    this.checkSolved();
   }
 
   updateClue(i, j, val) {
@@ -45,28 +46,14 @@ class Board {
   solve() {
     let counter = 0;
     let progress = true;
-    this.checkSolved();
     while (!this.solved && counter < 100 && progress) {
-      // check soleCandidate
-      counter += 1;
-      progress = checkClues.bind(this)();
-      if (progress) {
-        this.checkSolved();
-      }
-    }
-    if (!this.solved && !progress) {
-      // check uniqueCandidate
-      counter += 1;
-      progress = uniqueCandidate.bind(this)();
-      if (progress) {
-        counter += this.solve();
-      }
-    }
-    if (!this.solved && !progress) {
-      counter += 1;
-      progress = unitToUnit.bind(this)();
-      if (progress) {
-        counter += this.solve();
+      for (let i = 0; i < solvers.length; i += 1) {
+        counter += 1;
+        progress = solvers[i].bind(this)();
+        if (progress) {
+          this.checkSolved();
+          i = solvers.length;
+        }
       }
     }
     return counter;

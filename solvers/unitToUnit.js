@@ -1,4 +1,35 @@
-const { rowColToSquare } = require('../helpers/squareConverters');
+const { squareToRowCol, rowColToSquare } = require('../helpers/squareConverters');
+
+function sqToRowCol(unitIndex, number) {
+  const unit = this.squares[unitIndex];
+  if (unit.values[number]) {
+    return false;
+  }
+  let row;
+  let column;
+  for (let i = 0; i < unit.clues.length; i += 1) {
+    if (!unit.clues[i].hasValue && unit.clues[i].options[number]) {
+      if (row === undefined || column === undefined) {
+        ({ row, column } = unit.clues[i]);
+      } else if (row === unit.clues[i].row) {
+        column = -1;
+      } else if (column === unit.clues[i].column) {
+        row = -1;
+      }
+    }
+
+    if (row === -1 && column === -1) {
+      return false;
+    }
+  }
+
+  if (row >= 0) {
+    return this.rows[row].removeSoftClues(squareToRowCol(unitIndex)[1], number);
+  } if (column >= 0) {
+    return this.columns[column].removeSoftClues(squareToRowCol(unitIndex)[0], number);
+  }
+  throw new Error('no options found for a number in a unit');
+}
 
 function lineToSq(unitIndex, number, type) {
   const unit = (type === 'column') ? this.columns[unitIndex] : this.rows[unitIndex];
@@ -14,7 +45,7 @@ function lineToSq(unitIndex, number, type) {
         // set alternateIndex including number option
 
         alternateIndex = i - (i % 3);
-      } if (i - (i % 3) !== alternateIndex) {
+      } else if (i - (i % 3) !== alternateIndex) {
         // If slot is in a new alternateIndex return false
 
         return false;
@@ -39,7 +70,7 @@ module.exports = function unitToUnit() {
     for (let number = 1; number < 10; number += 1) {
       progress = lineToSq.bind(this)(unitIndex, number, 'column') || progress;
       progress = lineToSq.bind(this)(unitIndex, number, 'row') || progress;
-      // || sqToRowCol.bind(this)(unitIndex, number);
+      progress = sqToRowCol.bind(this)(unitIndex, number) || progress;
     }
     if (progress) return progress;
   }

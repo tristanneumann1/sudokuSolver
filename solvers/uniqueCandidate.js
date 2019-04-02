@@ -12,6 +12,9 @@ function unitCandidate(number) {
       return false;
     }
   }
+  if (this.clues[soleCandidate] === undefined) {
+    debugger
+  }
   const [i, j] = [this.clues[soleCandidate].row, this.clues[soleCandidate].column];
   this.clues[soleCandidate].inputValue(number);
   this.board.updateClue(i, j, number);

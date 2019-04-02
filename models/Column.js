@@ -17,8 +17,20 @@ class Column {
   updateColumn(val) {
     this.values[val] = true;
     this.clues.forEach((clue) => {
-      clue.options[val] = false;
+      clue.removeClue(val);
     });
+  }
+
+  removeSoftClues(exception, number) {
+    let change = false;
+    for (let i = 0; i < this.clues.length; i += 1) {
+      const { row } = this.clues[i];
+      if (row - (row % 3) !== exception) {
+        this.clues[i].removeClue(number);
+        change = true;
+      }
+    }
+    return change;
   }
 }
 

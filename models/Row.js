@@ -16,8 +16,20 @@ class Row {
   updateRow(val) {
     this.values[val] = true;
     this.clues.forEach((clue) => {
-      clue.options[val] = false;
+      clue.removeClue(val);
     });
+  }
+
+  removeSoftClues(exception, number) {
+    let change = false;
+    for (let i = 0; i < this.clues.length; i += 1) {
+      const { column } = this.clues[i];
+      if (column - (column % 3) !== exception) {
+        this.clues[i].removeClue(number);
+        change = true;
+      }
+    }
+    return change;
   }
 }
 

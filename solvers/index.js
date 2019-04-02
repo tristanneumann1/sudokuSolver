@@ -6,4 +6,5 @@ module.exports = {
   checkClues,
   unitToUnit,
   uniqueCandidate,
+  solvers: [checkClues, uniqueCandidate, unitToUnit],
 };

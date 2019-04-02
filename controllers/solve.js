@@ -17,20 +17,22 @@ const solve = (initObj) => {
   console.log(sudoku.log());
 };
 
-// fs.readFile('./initBoard.json', 'utf8', (err, json) => {
-//   if (err) {
-//     console.error(err)
-//   }
-//   solve(JSON.parse(json));
-// });
+fs.readFile('./initBoard.json', 'utf8', (err, json) => {
+  if (err) {
+    console.error(err)
+  }
+  solve(JSON.parse(json));
+});
 
-axios.get('http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=2')
-  .then((initObjData) => {
-    fs.writeFile('./initBoard.json', JSON.stringify(initObjData.data.squares), 'utf8', (err) => {
-      if (err) {
-        console.error(err)
-      }
-      console.log('file written');
-    });
-    solve(initObjData.data.squares);
-  });
+// axios.get('http://www.cs.utep.edu/cheon/ws/sudoku/new/?size=9&level=2')
+//   .then((initObjData) => {
+//     fs.writeFile('./initBoard.json', JSON.stringify(initObjData.data.squares), 'utf8', (err) => {
+//       if (err) {
+//         console.error(err)
+//       }
+//       console.log('file written');
+//     });
+//     solve(initObjData.data.squares);
+//   }).catch((err) => {
+//     console.error(err);
+//   });
