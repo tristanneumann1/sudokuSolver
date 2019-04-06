@@ -24,8 +24,7 @@ class Row {
     let change = false;
     for (let i = 0; i < this.clues.length; i += 1) {
       const { column } = this.clues[i];
-      if (column - (column % 3) !== exception) {
-        this.clues[i].removeClue(number);
+      if (column - (column % 3) !== exception && this.clues[i].removeClue(number)) {
         change = true;
       }
     }

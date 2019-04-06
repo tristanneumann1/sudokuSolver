@@ -7,9 +7,13 @@ const { squareConverters, findBoardClues, logger } = require('./helpers');
 const { rowColToSquare } = squareConverters;
 
 class Board {
-  constructor(initialVals) {
-    this.initialVals = initialVals;
-    this.vals = initialVals;
+  constructor(initialValues) {
+    this.initialValues = initialValues;
+    const starterBoard = Array(9).fill([]).map(() => Array(9).fill(undefined));
+    initialValues.forEach((square) => {
+      starterBoard[square.x][square.y] = square.value;
+    });
+    this.vals = starterBoard;
     this.solved = false;
     this.clues = findBoardClues.bind(this)();
     this.columns = [];

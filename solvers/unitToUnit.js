@@ -15,6 +15,9 @@ function sqToRowCol(unitIndex, number) {
         column = -1;
       } else if (column === unit.clues[i].column) {
         row = -1;
+      } else {
+        column = -1;
+        row = -1;
       }
     }
 

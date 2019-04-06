@@ -31,7 +31,11 @@ class Slot {
   }
 
   removeClue(number) {
-    this.options[number] = false;
+    if (this.options[number]) {
+      this.options[number] = false;
+      return true;
+    }
+    return false;
   }
 }
 
